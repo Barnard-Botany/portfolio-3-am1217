@@ -142,7 +142,7 @@ plot(tr2_plants)
 
 2. To these four taxa, add two additional taxa: radish and sequoia. For these six tip taxa, write a new Newick variable, read it, and plot it. Then repeat. Aim to write two alternative trees: one erroneous and one correct. 
 a. Explain what's wrong in your erroneous tree and how you've corrected the error in the other tree. .
-b. Use commands such as "str" or "attribute" and comment about whether your erroneous and correct tree differ in tips, Nnodes, or edges. 
+b. Use commands such as "str" or "attribute" and comment about whether your erroneous and correct tree differ in tips, nodes, or edges. 
 
 ## Branching order and branching lengths
 
@@ -259,7 +259,7 @@ This will store the new file in your working directory. You may want to then mak
 
 ```{r}
 newick_fn = "tr2_plants"
-write.tree(tr2_plants, file=tr2_plants)
+write.tree(tr2_plants, file=newick_fn)
 ```
 
 ```{r}
@@ -343,8 +343,10 @@ For the ten species above, a tree can be extracted from phylomatic, and plotted.
 During lab, I'll explain to you about the reference data and procedures being used to do this:
 
 ```{r}
+#r20120829 is formally called an argument
 tree_phylomatic <- phylomatic(taxa = taxa, storedtree ="R20120829", get = 'POST')
 plot(tree_phylomatic, no.margin = TRUE)
+??storedtree
 ```
 
 We can also write the tree into a text file, in newick format:
@@ -417,6 +419,7 @@ For that, we can turn back to the other plant-specific stored tree in Phylomatic
 
 
 ```{r}
+#here the stored stree is different but the taxa are the same these tree will look different because they run different codes. In zanne the tips are capitalized and they are in different order, also the branches are different lengths. dichotomous branching are present and polytomy forces a species into a group when the code isnt sure that the branch should go there. 
 tree_phylomatic <- phylomatic(taxa = spp1, storedtree ="zanne2014", get = 'POST')
 plot(tree_phylomatic, no.margin = TRUE)
 ```
@@ -426,8 +429,9 @@ Here is another example of a tree with variable branch lengths.
 ```{r}
 spp1 <- c("Abies_nordmanniana", "Abies_bornmuelleriana", "Abies_cilicica", "Abies_cephalonica",
 "Abies_numidica", "Abies_pinsapo", "Abies_alba", "Ginkgo biloba", "Nymphaea lotus", "Illicium mexicanum", "Magnolia fraseri","Lindera pulcherrima")
-tree_phylomatic <- phylomatic(taxa = taxa, storedtree ="zanne2014", get = 'POST')
+tree_phylomatic <- phylomatic(taxa = spp1, storedtree ="zanne2014", get = 'POST')
 plot(tree_phylomatic, no.margin = TRUE)
+#you see polytomy in the ABIES genus because they are difficult to tell apart
 ```
 
 
@@ -525,7 +529,11 @@ tree_phylomatic_EG2 <- phylomatic(taxa = EG, storedtree ="zanne2014", get = 'POS
 plot(tree_phylomatic_EG2, no.margin = TRUE, type="cladogram")
 newick_fn5 = "tree_phylomatic_EG2"
 write.tree(tree_phylomatic_EG2, file=newick_fn5)
+#caldogram is the one with Vshaped branching and the phylotgenetic tree is the vanne tree with differing branch lengths 
+#all of the red message in the "R console" tells you everything that is not found within the zannetree
+#zanne tree is simply more comprehensive, which is why we used it 
 ```
+
 
 #### MINI-EXERCISE 5
 

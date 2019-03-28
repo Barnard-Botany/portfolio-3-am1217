@@ -1,0 +1,214 @@
+---
+title: "Portfolio 3.1"
+output: html_notebook
+---
+#MINI EXERCISE #1
+```{r}
+#practicing commands with newick trees and phylo objects
+str("tr_primates")
+#here we are creating a newick string variable
+str(tr_primates)
+attributes(tr_primates)
+names(tr_primates) 
+#now we are going to read and plot the string using read.tree but with different topologies that are inaccurate
+newick_str = "(((Orangs, Gorillas), Chimps), Humans);"
+#reading via read.tree
+tr_primates = read.tree(text=newick_str)
+#plotting our read.tree
+plot(tr_primates)
+```
+#obviously this doesn't represent a accurate evolutionary relationship, but we did it to alter the topology of the original tree presented in the notebook.
+
+#MINIECERCISE 2 
+```{r}
+#making a more accurate phylogenetic tree for cabbage, kale, corn, and wheat
+newick_str = "((Wheat,Corn,(Cabbage, Kale)));"
+tr2_plants = read.tree(text=newick_str)
+plot(tr2_plants)
+```
+```{r}
+#making a an incorrect phyologenetic tree with 6 taxa 
+newick_str = "(Wheat,(Corn,Radish,(Cabbage, Kale,Sequoia)));"
+tr3_plants = read.tree(text=newick_str)
+plot(tr3_plants)
+```
+This tree tells us that radish and corn share a further common ancestor than kale,cabbage, and sequoia do, however upon further research we quickly learn that radishes come from the same family that cabbage and kale come from, and sequoias come from a completely different family on their own. We can fix this by rearranging them on the newick string. 
+```{r}
+#creating an accurate tree with 6 taxa
+newick_str = "((Wheat,Corn,Sequoia,(Cabbage, Kale,Radish)));"
+tr3_plants = read.tree(text=newick_str)
+plot(tr3_plants)
+```
+This tree gives us a more accurate representation between Radish,Kale, and Cabbage, which belong to the same family and share a more recent common ancestor, whereas corn, wheat, and sequoia come from different families and diverge from the tree. This can be deduced by the common node between Radish, Kale and Cabbage. 
+#MINI EXERCISE 3 **need help with this**
+```{r}
+#adding a species of organutang
+newick_str = "(((Humans:6.0, Chimps:6.0)LCA_humans_chimps:1.0, Gorillas:7.0)LCA_w_gorillas:1.0, P.tapanuliensis:8.0, P.abelii:8.0)LCA_w_orangs:1.0;"
+tr_primate = read.tree(text=newick_str)
+plot(tr_primate, show.node.label=TRUE)
+attributes(tr_primate)
+tr_primate
+```
+```{r}
+newick_str = "(((Humans, Chimps), Gorillas), P.abelli, P.tapanuliensis);"
+#Here, we are defining a character variable. 
+tr4_primates = read.tree(text=newick_str)
+plot(tr4_primates)
+```
+
+#MINI EXERCISE 4
+```{r}
+#plotting 6 taxa in different formats 
+plot(tr3_plants, type="phylogram")
+plot(tr3_plants, type="cladogram")
+plot(tr3_plants, type="fan")
+plot(tr3_plants, type="unrooted")
+plot(tr3_plants, type="radial")
+```
+#MINI EXERCISE 5
+```{r}
+#plotting phylogram instead of cladogram 
+EG<-c("Abies",
+"Ailanthus",
+"Aspicllum",
+"Atragene",
+"Bangia",
+"Begonia",
+"Berberis",
+"Betula",
+"Blasia",
+"Blechnum",
+"Caulerpa",
+"Ceratophyllum",
+"Chenopodium",
+"Clematis",
+"Cocculus",
+"Corallorrhiza",
+"Corchorus",
+"Cucurbita",
+"Dahlia",
+"Dioscorea",
+"Dracaena",
+"Equisetum",
+"Euonymus",
+"Euphorbia",
+"Fagus",
+"Ficus",
+"Fontinalis",
+"Fossombronia",
+"Fritillaria",
+"Fucus",
+"Gleditschia",
+"Gleocapsa",
+"Haplomitrium",
+"Hedera",
+"Helianthus",
+"Heterocentron",
+"Hippuris",
+"Hypoderma",
+"Isoetes",
+"Linum",
+"Liquidambar",
+"Marchantia",
+"Momordica",
+"Monopodium",
+"Mucor",
+"Nerium",
+"Nitella",
+"Osmunda",
+"Pandanus",
+"Papaver",
+"Pelargonium",
+"Phlomis",
+"Phytolacca",
+"Pinus",
+"Platanus",
+"Polytrichum",
+"Populus",
+"Potamogeton",
+"Punctum",
+"Quercus",
+"Ricinus",
+"Rubus",
+"Salix",
+"Sambucus",
+"Sclerotium",
+"Selaginella",
+"Sempervivum",
+"Sponia",
+"Stypocaulon",
+"Sympodium",
+"Taxodium",
+"Tecoma",
+"Tradescantia",
+"Urtica",
+"Viola",
+"Vitis",
+"Wisteria",
+"Yucca")
+EG
+ree_phylomatic_EG1 <- phylomatic(taxa = EG, get = 'POST')
+plot(tree_phylomatic_EG1, no.margin = TRUE, type="phylogram")
+newick_fn4 = "tree_phylomatic_EG1"
+write.tree(tree_phylomatic_EG1, file=newick_fn4)
+#repeating to get tree from Zanne2014
+tree_phylomatic_EG2 <- phylomatic(taxa = EG, storedtree ="zanne2014", get = 'POST')
+plot(tree_phylomatic_EG2, no.margin = TRUE, type="phylogram")
+newick_fn5 = "tree_phylomatic_EG2"
+write.tree(tree_phylomatic_EG2, file=newick_fn5)
+```
+Here we took our the species from Emily Gregory's list and plotted them as a phylogram instead of a cladogram, which can be seen by the non v shaped differeing branch lengths. The difference between the cladogram that was plotted in the exercercise and this phylogram simply represents the data that allows us to interpret the information differently. For example, the cladogram contains branches of similar lenghts, whereas the phylogram contains branches of many differening lenghts, this means that the cladogram is good for determining common ancestors, but if we wanted to have a more accurate representation of WHEN evolutionary taxa separated, we would be a better of looking at a phylogram. 
+We can also see what is missing from the tree,sclerotium, is a type of vegetative fungus that mainly develop on trees, but can sometimes fall off and go dormant by accumulating food reserves. The fact that this was not included in the tree could mean that Botanists are still researching the nature of sclerotium in order to properly categorize it. For example, upon research I found out that scientists first believed that sclerotium were mistaken for individuals, until it was found out that this is a stage in a life cycle that some fungi go through... This shows that there is still research to be done on the nature of plants to create a complete phylogenetic tree. 
+#MACRO ASSIGNMENT 
+```{r}
+#we are going to make a tree using a list of the plants I use on a daily basis
+spp1 <- c("Camellia sinensis", "Matricaria chamomilla", "Spinacia oleracea", "Capsicum annuum",
+"Brassica oleracea", "Coriandrum sativum", "Gossypium hirsutum", "Cicer arietinum", "Pisum sativum", "Citrus maxima", "Allium_schoenoprasum", "Vitis vinifera", "Theobroma cacao", "Glycine Max", "Helianthus annus", "Vitis rotundifolia","Citrus limon", "Vitis amurensis","Vitis labruscana", "Coffea arabica", "Citrus sinensis", "Citrus reticulata", "Prunus serrulata", "Ficus carica", "Triticum aestivum", "Quercus Alba", "Allium cepa", "Ocimum basilicum", "Solanum tuberosum", "Musa ornata")
+#shortcut to get the evolutionary relationship data
+urlA<-"http://datadryad.org/bitstream/handle/10255/dryad.8791/final_tree.tre?sequence=1"
+#plotting 
+daily<-phylomatic(taxa=spp1, treeuri=urlA)
+plot(daily)
+
+```
+Now we are going to represent this tree in different formats, a cladogram and a fan instead of a phylogeny. We will also save them in pdf format. 
+```{r}
+plot(daily, type="unrooted")
+plot(daily, type="cladogram")
+pdf_fn = "daily.pdf"
+pdf(file=pdf_fn)
+plot(daily, type="unrooted", edge.width=5, edge.color="blue", lab4ut="axial")
+dev.off()
+cmdstr = paste("open ", pdf_fn, sep="")
+system(cmdstr)
+```
+Now we will save the tree so that we can use it in tree of life 
+```{r}
+newick_fn = "daily"
+write.tree(daily, file=newick_fn)
+getwd()
+```
+Now to finish this portfolio, we will do the same exact thing with the species from the second list that I collected, which was a list of species from my article. 
+```{r}
+#we are going to make a tree using a list of the plants I use on a daily basis
+spp1 <- c("Alliaria petiolata", "Bauhinia multinervia", "Betula peubescens", "Prunus cerasus", "Cornus serica", "Cyanchum louiseae", "Duchesnea indica", "Lonicera korolkowii", "Lonicera tatarica", "Populus deltoides", "Populus trichocarpa", "Populus alba", "Prunus Avium", "Prunus cerasifera", "Ribes alpinum", "Prunus serrulata", "Salix artica", "Sibbaldia procumbens", "Sorbus aucuparia", "Spatiphylum cannifolium", "Syringa vulgaris", "Lavandula angustifolia", "Syringa reticulata", "Betula pendula", "Acer rubrum")
+#shortcut to get the evolutionary relationship data
+urlA<-"http://datadryad.org/bitstream/handle/10255/dryad.8791/final_tree.tre?sequence=1"
+#plotting 
+article<-phylomatic(taxa=spp1, treeuri=urlA)
+plot(article)
+```
+plotting in different formats and saving as a pdf and txt 
+```{r}
+plot(article, type="unrooted")
+plot(article, type="cladogram")
+pdf_fn = "article.pdf"
+pdf(file=pdf_fn)
+plot(article, type="unrooted", edge.width=5, edge.color="blue", lab4ut="axial")
+dev.off()
+cmdstr = paste("open ", pdf_fn, sep="")
+system(cmdstr)
+newick_fn = "article"
+write.tree(article, file=newick_fn)
+getwd()
+```
